@@ -19,7 +19,7 @@ exports.auth = async (req, res, next) => {
       }
  // Verify the token (code omitted for brevity)
       try {
-        const decode=await jwt.verify(token,process.env.JWT_SECRET);
+        const decode=jwt.verify(token,process.env.JWT_SECRET);
 
         console.log(decode);
         req.user=decode;
@@ -89,4 +89,4 @@ exports.auth = async (req, res, next) => {
             message:"User role cannot be verified,please try again"
           })
     }
-  }
+  } 
