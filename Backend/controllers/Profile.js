@@ -41,7 +41,7 @@ exports.updateProfile=async(res,res)=>{
 
     } catch (error) {
         console.log("Error while creating profile",error);
-        return res.status(400).json({
+        return res.status(500).json({
             success:false,
             message:"Updation failed",
             error:error.message
@@ -51,10 +51,29 @@ exports.updateProfile=async(res,res)=>{
 
 exports.getProfile=async(req,res)=>{
     try {
+        const id=req.user.id;
+        if(!id){
+            return res.status(400).json({
+                success:false,
+                message:"All field are required"
+            }
+            );
+        };
+
+        const user=await User.findById({_id:id}).populate("additionalDetails").exec();
+
+        // const profile=await Profile.findById(user.additionalDetails);
+
+      
+            return res.status(200).json({
+                success:true,
+                message:"User Data fetched successfully"
+            }
+            );
         
     } catch (error) {
         console.log("Error while getting profile",error);
-        return res.status(400).json({
+        return res.status(500).json({
             success:false,
             message:"Deletion failed",
             error:error.message
@@ -103,7 +122,7 @@ exports.deleteAccount=async(req,res)=>{
       
     } catch (error) {
         console.log("Error while updatin profile",error);
-        return res.status(400).json({
+        return res.status(500).json({
             success:false,
             message:"Deletion failed",
             error:error.message
