@@ -110,11 +110,53 @@ exports.verifySignature=async(req,res)=>{
 
         if(signature===digest){
             console.log("Payment is Authorized");
+
+            const {courseId,userId}=req.body.payload.payment.entity.notes;
+
+            try {
+                //full the action
+
+                //Find the course and enroll the student in it;
+
+                const enrolledCourse=await Course.findByIdAndUpdate({_id:courseId},{
+                    $push:{
+                        studentsEnrolled:userId
+                    }
+                },{new:true})
+                if(!enrolledCourse){
+                    return res.json({
+                        success:false,
+                        message:"COurse not found"
+                    })
+                }
+
+                console.log(enrolledCourse);
+
+                //Find the student and put the enrolled course in the course list
+
+                const enrolledStudent=await User.findByIdAndUpdate({_id:userId},{$push:{
+                    courses:courseId
+                }},{new:true});
+
+                const emailRespones=await mailSender(enrolledStudent.email,
+                    "Congratulation,You are onboardded into new CCodhelp course","Congrats"
+                )
+
+                return res.status(200).json({
+                    success:true,
+                    message:"Signature Verified and course added"
+                })
+            } catch (error) {
+                return res.status(500).json({
+                    success:false,
+                    message:err.message
+                });
+            }
         }
     } catch (error) {
         return res.status(500).json({
             success:false,
-            message:"Verification Failed"
+            message:error.message
         }
     );
     }
