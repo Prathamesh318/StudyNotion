@@ -9,15 +9,18 @@ const {
   sendotp,
   changePassword,
 } = require("../controllers/Auth")
-// const {
-//   resetPasswordToken,
-//   resetPassword,
-// } = require("../controllers/resetPassword")
+const {
+  resetPasswordToken,
+  resetPassword,
+} = require("../controllers/resetPassword")
 
 const { auth } = require("../middleware/auth")
-const { resetPasswordToken, resetPassword } = require("../controllers/ResetPassword")
 
+// Routes for Login, Signup, and Authentication
 
+// ********************************************************************************************************
+//                                      Authentication routes
+// ********************************************************************************************************
 
 // Route for user login
 router.post("/login", login)
@@ -31,7 +34,9 @@ router.post("/sendotp", sendotp)
 // Route for Changing the password
 router.post("/changepassword", auth, changePassword)
 
-
+// ********************************************************************************************************
+//                                      Reset Password
+// ********************************************************************************************************
 
 // Route for generating a reset password token
 router.post("/reset-password-token", resetPasswordToken)
