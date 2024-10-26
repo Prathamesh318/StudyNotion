@@ -5,7 +5,7 @@ require('dotenv').config()
 mongoose.connect('mongodb')
 
 exports.connect=()=>{
-    mongoose.connect(process.env.MONGODB_URL,{
+    mongoose.connect("mongodb://localhost:27017/StudyNotion",{
         useNewUrlParser:true,
         useUnifiedTopology:true,
     }).then(()=>console.log("DB CONNECTED SUCCESSFULLY"))
