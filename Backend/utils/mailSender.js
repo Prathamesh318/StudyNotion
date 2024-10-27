@@ -2,6 +2,10 @@ const nodemailer = require("nodemailer")
 
 const mailSender = async (email, title, body) => {
   try {
+    console.log('Email',email);
+    console.log('title',title);
+    console.log('Body :',body)
+    console.log('Mail host',process.env.MAIL_HOST)
     let transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
       auth: {
@@ -17,10 +21,11 @@ const mailSender = async (email, title, body) => {
       subject: `${title}`, // Subject line
       html: `${body}`, // html body
     })
-    console.log(info.response)
+    console.log("INFORMATION"+info.response)
     return info
   } catch (error) {
-    console.log(error.message)
+    console.log(email)
+    console.log("Error occured while sending mai",error.message)
     return error.message
   }
 }

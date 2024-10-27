@@ -25,6 +25,7 @@ exports.createCourse = async (req, res) => {
     } = req.body
     // Get thumbnail image from request files
     const thumbnail = req.files.thumbnailImage
+    console.log(JSON.stringify(req.body));
 
     // Convert the tag and instructions from stringified Array to Array
     const tag = JSON.parse(_tag)
